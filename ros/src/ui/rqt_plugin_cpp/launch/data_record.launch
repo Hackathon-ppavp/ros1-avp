@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="file_prefix" default="PARKO"/>
+  <arg name="file_folder" default=""/>
+  <node pkg="rosbag" type="record" name="rosbag_record" 
+	args="-b 1024 --split --size=10000 -o $(arg file_folder)/$(arg file_prefix) /os1_cloud_node/imu /os1_node/imu_packets /os1_node/lidar_packets /os1_cloud_node/points /ladybug5p/image_bayer /ladybug5p/camera_info /fix" />
+
+
+</launch>

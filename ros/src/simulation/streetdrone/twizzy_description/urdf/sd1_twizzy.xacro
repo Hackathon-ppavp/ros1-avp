@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<robot name="sd1_twizzy" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Camera offset from the base link-->
+  <property name="velodyne_gmsl1_x" value="0.0" />
+  <property name="velodyne_gmsl1_y" value="0.0" />
+  <property name="velodyne_gmsl1_z" value="0.0" />
+
+
+  <!-- The following include files set up definitions of parts of the robot body -->
+  <xacro:include filename="$(find twizzy_description)/urdf/materials.urdf.xacro" />
+  <xacro:include filename="$(find twizzy_description)/urdf/twizzy.urdf.xacro" />
+  <xacro:include filename="$(find twizzy_description)/urdf/velodyne.urdf.xacro" />
+  <xacro:include filename="$(find twizzy_description)/urdf/gmsl.urdf.xacro" />
+  <xacro:include filename="$(find twizzy_description)/urdf/gps.urdf.xacro" />
+  <xacro:include filename="$(find twizzy_description)/urdf/imu.urdf.xacro" />
+
+  <!-- Start with the base + wheels -->
+  <base name="base"/>
+
+   <!-- Attach the velodyne lidar -->
+  <velodyne name="velodyne" parent="base" color="Red">
+    <origin xyz="0.0 0 1.445" rpy="0 0 0" />
+  </velodyne>
+
+  <!-- Attach RTK GPS -->
+  <neobotix_rtk name="gps_base" parent="base" color="Blue">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+  </neobotix_rtk>
+
+  <!-- Attach IMU -->
+  <xsense_imu name="imu" parent="base" color="Orange">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+  </xsense_imu>
+
+  <!-- Attach the camera macro name gmsl -->
+  <gmsl name="gmsl_camera_0_0" parent="velodyne" color="Red">
+    <origin xyz="0.72892175 -0.05673481 -0.11099091" rpy="-1.67188418 -0.01535144 -1.58131909"/>
+  </gmsl>
+
+  <gmsl name="gmsl_camera_0_1" parent="velodyne" color="Red">
+	  <origin xyz="0.71952893 0.18228876 -0.11169658" rpy="-1.66591346 0.02767927 -1.56243623"/>
+  </gmsl>
+
+  <gmsl name="gmsl_camera_0_2" parent="velodyne" color="Red">
+	  <origin xyz="0.71595247 0.04320704 -0.10889413" rpy="-1.62651831 0.01519602 -1.58760043"/>
+  </gmsl>
+
+
+
+</robot>

@@ -1,0 +1,13 @@
+<package format="2">
+  <name>autoware_glue</name>
+  <version>0.0.1</version>
+  <description>
+    Autoware glue nodes and launch examples
+  </description>
+  <maintainer email="sander@parkopedia.com">Sander van Dijk</maintainer>
+  <license>APACHE 2.0</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>map_server</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+</package>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot name= "vehicle_wheel" xmlns:xacro="http://ros.org/wiki/xacro">
+  <property name="PI" value="3.1415" />
+  <!-- name: e.g. wheel_back_left -->
+  <!-- parent: e.g. base -->
+  <macro name="wheel" params="parent name color *origin">
+	  <link name="${name}">
+        <inertial>
+          <mass value="11"/>
+          <origin xyz="0 0 0"/>
+          <inertia ixx="0.58631238" ixy="0.0" ixz="0.0" iyy="0.33552910" iyz="0.0" izz="0.33552910"/>
+        </inertial>
+	    <visual>
+		    <geometry>
+		      <cylinder length="0.005" radius="0.005"/>
+		    </geometry>
+		    <origin rpy="0 0 0" xyz="0 0 0"/>
+		    <material name="${color}"/>
+	    </visual>
+	  </link>
+
+	  <joint name="base_to_${name}" type="continuous">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+	    <child link="${name}"/>
+	  </joint>
+
+      <gazebo reference="${name}">
+        <mu1>0.9</mu1>
+        <mu2>0.9</mu2>
+        <minDepth>0.005</minDepth>
+        <kp>1e8</kp>
+      </gazebo>
+  </macro>
+
+  
+  
+
+</robot>

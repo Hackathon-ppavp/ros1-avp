@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>sdcan_interface_msgs</name>
+  <version>1.8.0</version>
+  <description>
+    Custom StreetDroneControl1 CANBus message
+  </description>
+
+  <maintainer email="punnu@parkopedia.com">PunnuPhairatt</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <run_depend>std_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+  <export></export>
+</package>

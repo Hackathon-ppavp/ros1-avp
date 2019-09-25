@@ -1,0 +1,62 @@
+{
+  "keys": {},
+  "groups": {
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "type": "repr",
+          "repr": "{u'rqt_plugin_cpp/MyPlugin': [1]}"
+        }
+      },
+      "groups": {
+        "plugin__rqt_plugin_cpp__MyPlugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__MyPluginWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Form'"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    },
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00020000000000d600000092000005ba00000471000000d6000000ae000005ba0000047100000000000000000a00')",
+          "pretty-print": "           q       q     "
+        },
+        "state": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd0000000100000003000004e5000003aefc0100000001fb00000056007200710074005f0070006c007500670069006e005f006300700070005f005f004d00790050006c007500670069006e005f005f0031005f005f004d00790050006c007500670069006e0057006900640067006500740100000000000004e50000009c00ffffff000004e30000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                 Vrqt_plugin_cpp__MyPlugin__1__MyPluginWidget                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "type": "repr",
+              "repr": "8"
+            }
+          },
+          "groups": {}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<package format="2">
+  <name>costmap_plot</name>
+  <version>1.0.0</version>
+  <description>
+  Plot costmap in python in 2d array grid
+  </description>
+  <maintainer email="punnu@parkopedia.com">Punnu Phairatt</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>cv_bridge</build_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+</package>

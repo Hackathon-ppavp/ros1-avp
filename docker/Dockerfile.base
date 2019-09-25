@@ -1,0 +1,97 @@
+ARG FROM_ARG
+
+FROM autoware/autoware:${FROM_ARG}
+
+### Add a new ros key ###
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+### Utilities and build dependencies ###
+RUN apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        software-properties-common \
+        wget \
+        sudo \
+        vim \
+        clang-format-6.0 \
+        nano \
+        gdb \
+        valgrind \
+        opencollada-dev \
+        libxml2-dev \
+        libcgal-dev \
+        libgdal-dev \
+        libproj-dev \
+        libcgal-qt5-dev \
+        libgtest-dev \
+        python-pip \
+        python-catkin-tools \
+        python-gdal \
+        usbutils \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN cd /usr/src/gtest && cmake . && make -j && cp *.a /usr/lib/
+
+RUN echo "export ROS_HOSTNAME=localhost" >> /etc/profile.d/ros.sh \
+        && echo "[[ -f \"/home/${USERNAME}/ppavp/devel/setup.bash\" ]] && source /home/${USERNAME}/ppavp/devel/setup.bash" >> /etc/profile.d/ros.sh
+
+RUN mkdir -p /home/${USERNAME}/ppavp/src && chown -R  ${USERNAME}:${USERNAME} /home/${USERNAME}/ppavp
+
+COPY docker/atomic_configure_file.cmake /opt/ros/kinetic/share/catkin/cmake/atomic_configure_file.cmake
+
+### Adding ROS packages ###
+USER root
+
+### GAZEBO ###
+RUN echo "deb http://packages.osrfoundation.org/gazebo/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list \
+    && wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
+
+RUN apt-get update && apt-get install -y \
+        gazebo8 \
+        ros-$ROS_DISTRO-gazebo8-plugins \
+        ros-$ROS_DISTRO-gazebo8-ros-pkgs \
+        ros-$ROS_DISTRO-gazebo8-ros-control \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+### Car CAN bus dependency and other useful networking tool for synchronising remote connection ###
+RUN apt-get update && apt-get install -y \
+        libmuparser-dev \
+        iproute \
+        iproute-doc \
+        net-tools \
+        iputils-ping \
+        chrony
+
+### ROS Packages ###
+ENV ROS_DISTRO kinetic
+RUN apt-get update && apt-get install -y \
+        ros-$ROS_DISTRO-ros-core \
+        ros-$ROS_DISTRO-ros-base \
+        ros-$ROS_DISTRO-robot \
+        ros-$ROS_DISTRO-desktop \
+        ros-$ROS_DISTRO-map-server \
+        ros-$ROS_DISTRO-ackermann-msgs \
+        ros-$ROS_DISTRO-fake-localization \
+        ros-$ROS_DISTRO-robot-localization \
+        ros-$ROS_DISTRO-joy \
+        ros-$ROS_DISTRO-teleop-twist-joy \
+        ros-$ROS_DISTRO-teleop-twist-keyboard \
+        ros-$ROS_DISTRO-pid	\
+        ros-$ROS_DISTRO-geographic-info \
+        ros-$ROS_DISTRO-unique-identifier \
+        ros-$ROS_DISTRO-ros-canopen \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+### vc tool to download remote git repo ###
+RUN apt-get update && apt-get install -y \
+        python-vcstool \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+### Qt-ros plugins for developing and debuging ROS UI ###
+#RUN wget https://qtcreator-ros.datasys.swri.edu/downloads/installers/xenial/qtcreator-ros-xenial-latest-online-installer.run -O /tmp/qtcreator-ros-xenial-latest-online-installer.run
+#RUN chmod +x /tmp/qtcreator-ros-xenial-latest-online-installer.run
+#ENTRYPOINT /tmp/qtcreator-ros-xenial-latest-online-installer.run
+RUN add-apt-repository ppa:levi-armstrong/qt-libraries-xenial
+RUN add-apt-repository ppa:levi-armstrong/ppa
+RUN apt-get update && sudo apt-get install -y \
+        qt57creator-plugin-ros

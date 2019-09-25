@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="lane_waypoints_topic" default="/lane_waypoints_array"/>
+    <node pkg="autoware_glue" type="lane_waypoints_loader_avp.py" name="waypoints_loader_avp_node">
+        <param name="path" value="$(find autoware_glue)/maps" />
+        <param name="lane_waypoints_topic" value="$(arg lane_waypoints_topic)"/>
+    </node>
+</launch>

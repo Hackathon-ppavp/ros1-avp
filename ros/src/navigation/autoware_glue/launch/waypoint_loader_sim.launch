@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="file_name" default="sim_simple_path.csv"/>
+    <arg name="lane_waypoints_topic" default="/lane_waypoints_array"/>
+    <node pkg="autoware_glue" type="lane_waypoints_loader.py" name="waypoints_loader_node">
+        <param name="path" value="$(find autoware_glue)/maps/$(arg file_name)" />
+        <param name="lane_waypoints_topic" value="$(arg lane_waypoints_topic)"/>
+    </node>
+</launch>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name= "vlp16" xmlns:xacro="http://ros.org/wiki/xacro">
+  <property name="PI" value="3.1415" />
+
+  <macro name="velodyne" params="parent name color *origin">
+	<link name="${name}">
+	  <visual>
+		<geometry>
+		  <cylinder length="0.095" radius="0.08"/>
+		</geometry>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+		<material name="${color}"/>
+	  </visual>
+	</link>
+
+	<joint name="base_to_${name}" type="fixed">
+    <xacro:insert_block name="origin" />
+    <parent link="${parent}_link"/>
+	  <child link="${name}"/>
+	</joint>
+  </macro>
+
+</robot>

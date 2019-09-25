@@ -1,0 +1,56 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.idea
+cmake-build*
+
+# Python byte-compile file
+__pycache__/
+*.pyc
+
+
+# editor backup files
+*~
+\#*\#
+
+# backup files
+*.bak
+
+# Eclipse
+.cproject
+.project
+.pydevproject
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# qt
+*.workspace
+*.workspace.user
+*.workspace.user.*
+
+# CLion
+.idea/
+cmake-build-debug/
+
+# clang-format
+.clang-format
+
+# ROSBag files
+*.bag
+*.pcd
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+/.metadata/
+
+# ros build and catkin_ws
+ros/build
+ros/devel
+ros/src/CMakeLists.txt
+
+
+

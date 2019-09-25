@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name= "gmsl_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+  <property name="PI" value="3.1415" />
+
+  <macro name="gmsl" params="parent name color *origin">
+	 <link name="${name}">
+    <visual>
+      <geometry>
+        <box size="0.025 0.025 0.025"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.025"/>
+     <material name="${color}"/>
+    </visual>
+  </link>
+  <!-- wrt velodyne, should fix!-->
+  <joint name="${parent}_to_${name}" type="fixed">
+		<xacro:insert_block name="origin" />
+    <parent link="${parent}"/>
+    <child link="${name}"/>
+  </joint>
+  </macro>
+
+</robot>

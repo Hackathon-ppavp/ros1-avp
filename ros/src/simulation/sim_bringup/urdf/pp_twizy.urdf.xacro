@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<robot name="pp_twizy" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find sd_description)/urdf/sd_twizy.urdf.xacro"/>
+
+  <link name="gps_link" />
+  <joint name="gps_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 1.57"/>
+    <parent link="base_link" />
+    <child link="gps_link" />
+  </joint>
+
+  <link name="imu_link" />
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 1.57"/>
+    <parent link="base_link" />
+    <child link="imu_link" />
+  </joint>
+
+  <gazebo>
+    <plugin name="gps_sim" filename="libhector_gazebo_ros_gps.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>4.0</updateRate>
+      <bodyName>gps_link</bodyName>
+      <frameId>base_link</frameId>
+      <topicName>/gps/fix</topicName>
+      <velocityTopicName>fix_velocity</velocityTopicName>
+      <referenceLatitude>51.509865</referenceLatitude>
+      <referenceLongitude>-0.118092</referenceLongitude>
+      <referenceHeading>0.0</referenceHeading>
+
+      <drift>5 5 5</drift>
+      <gaussianNoise>0.01 0.01 0.01</gaussianNoise>
+      <velocityDrift>0 0 0</velocityDrift>
+      <velocityGaussianNoise>1e-6 1e-6 1e-6</velocityGaussianNoise>
+      <!--interface:position name="gps_position"/-->
+    </plugin>
+
+    <plugin name="imu_sim" filename="libhector_gazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100.0</updateRate>
+      <bodyName>imu_link</bodyName>
+      <frameId>base_link</frameId>
+      <topicName>/imu/data</topicName>
+      <accel>
+        <offset>0 0 0</offset>
+        <drift>0.1 0.1 0.1</drift>
+        <gaussianNoise>0.35 0.35 0.3</gaussianNoise>
+        <scaleError>0 0 0</scaleError>
+      </accel>
+      <rate>
+        <offset>0 0 0</offset>
+        <drift>0.1 0.1 0.1</drift>
+        <!--<driftFrequency>0 0 0</driftFrequency>-->
+        <gaussianNoise>0.05 0.05 0.05</gaussianNoise>
+        <scaleError>0 0 0</scaleError>
+      </rate>
+      <yaw>
+        <offset>0 0 0</offset>
+        <drift>0 0 0</drift>
+        <!--<driftFrequency>0 0 0</driftFrequency>-->
+        <gaussianNoise>1.3e-2 1.3e-2 1.3e-2</gaussianNoise>
+        <scaleError>0 0 0</scaleError>
+      </yaw>
+    </plugin>
+  </gazebo>
+</robot>

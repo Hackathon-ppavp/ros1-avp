@@ -1,0 +1,11 @@
+ARG AUTOWARE_DOCKER_ARCH
+ARG AUTOWARE_TARGET_ARCH
+ARG AUTOWARE_TARGET_PLATFORM
+FROM autoware/build:${AUTOWARE_TARGET_PLATFORM}-kinetic-20190521 AS sysroot
+RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential
+
+COPY files/FindCUDA.cmake /usr/share/cmake-3.5/Modules/FindCUDA.cmake
+CMD . /opt/ros/kinetic/setup.sh && /bin/bash

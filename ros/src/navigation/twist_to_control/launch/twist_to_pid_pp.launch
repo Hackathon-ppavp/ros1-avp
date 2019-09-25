@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- PID Bridge node -->
+  <node pkg="twist_to_control" type="twist_vehicle_pid" name="twist_vehicle_pid_node" output="screen">
+    <param name="throttle_max" value="100" type="int"/> <!-- limited pid out throttle -->
+    <param name="steering_max" value="100" type="int"/> <!-- limited pid out steering -->
+    <param name="current_velocity_topic" value="/current_velocity" type="string"/> <!-- limited pid out steering -->
+  </node>
+
+  <!-- PID nodes -->
+  <node name="controller" pkg="pid" type="controller" ns="sd_throttle" output="screen" >
+    <param name="node_name" value="sd_throttle_pid" />
+    <param name="Kp" value="33.0" /><!-- NG 25   , BETTER 33.0 -->
+    <param name="Ki" value="1.2" /><!-- NG 0.05 , BETTER 0.18 -->
+    <param name="Kd" value="5.5" /><!--  NG 2.5  , BETTER 5.5  -->
+    <param name="upper_limit" value="100" />
+    <param name="lower_limit" value="-100" />
+    <param name="windup_limit" value="100" />
+    <param name="max_loop_frequency" value="100.0" />
+    <param name="min_loop_frequency" value="100.0" />
+    <!--<param name="cutoff_frequency" value="0.25"/>-->
+    <remap from="setpoint" to="/setpoint/linear_velocity" />
+    <remap from="pid_enable" to="/pid_enable" />
+
+  </node>
+
+  <node name="controller" pkg="pid" type="controller" ns="sd_steer" output="screen" >
+    <param name="node_name" value="sd_steering_pid" />
+    <param name="Kp" value="20.0" /> <!-- no lpf 20   , with 3.7 lpf 18.0 -->
+    <param name="Ki" value="0.0" /> <!--  no lpf 0.0  , with 3.7 lpf 0.0 -->
+    <param name="Kd" value="0.4" /> <!--  no lpf 0.4  , with 3.7 lpf 0.3 -->
+    <param name="upper_limit" value="100" />
+    <param name="lower_limit" value="-100" />
+    <param name="windup_limit" value="100" />
+    <param name="max_loop_frequency" value="100.0" />
+    <param name="min_loop_frequency" value="100.0" />
+    <!--<param name="cutoff_frequency" value="3.7"/>-->
+    <param name="angle_error" value="true"/>     <!-- wrap angle to -pi,pi -->
+    <param name="angle_wrap" value="3.14159"/>   <!-- wrap angle to -pi,pi -->
+    <remap from="setpoint" to="/setpoint/steer_angle" />
+    <remap from="pid_enable" to="/pid_enable" />
+  </node>
+
+</launch>

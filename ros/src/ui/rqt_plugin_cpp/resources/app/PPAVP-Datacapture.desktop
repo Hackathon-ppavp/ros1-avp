@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Data Capture
+StartupWMClass=Data Capture
+Comment=Launch ROS PPAVP Datacapture System
+GenericName=ROS Launch PPAVP
+#Exec=gnome-terminal -e "bash -c /home/parkopedia/ppavp-datacapture/ros_ws/main_exe.sh;$SHELL"
+Exec=gnome-terminal -e "bash -c /home/${USER}/ppavp-datacapture/ros_ws/main_exe.sh;"
+#Icon=/home/parkopedia/icons/icon.png
+Icon=/home/${USER}/ppavp-datacapture/ros_ws/src/rqt_plugin/rqt_plugin_cpp/resources/images/icon.png
+Type=Application
+Categories=Networks;
+
+
+

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="base" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Define a number of dimensions using properties -->
+  <property name="twizzy_scale" value="10.0" />
+  <property name="PI" value="3.1415" />
+
+  <!-- The base xacro macro -->
+  <macro name="base" params="name">
+    <link name="base_link">
+      <visual>
+        <origin xyz="0.82 0 0" rpy="0 0 ${PI/2}" />
+        <geometry>
+           <mesh filename="package://twizzy_description/cad/Twizzy2.dae" scale="${twizzy_scale} ${twizzy_scale} ${twizzy_scale}"/>
+        </geometry>
+      </visual>
+    </link>
+  </macro>
+
+  <!--
+  <link name="base_footprint">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.05 0.05 0.001" />
+        </geometry>
+        <material name="TransparentGreen" />
+      </visual>
+  </link>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="-0.82 0 0" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint> -->
+
+</robot>

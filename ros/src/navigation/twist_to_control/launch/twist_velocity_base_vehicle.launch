@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="current_pose_topic" default="/current_pose"/>
+  <arg name="estimated_twist_topic" default="/current_velocity"/>
+  <node pkg="twist_to_control" type="twist_velocity_base" name="twist_velocity_base_node">
+    <param name="current_pose_topic" value="$(arg current_pose_topic)" type="string"/>
+    <param name="estimated_twist_topic" value="$(arg estimated_twist_topic)" type="string"/>
+  </node>
+</launch>

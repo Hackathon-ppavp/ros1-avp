@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="axle_macro" params="parent child axle_joint_name *origin">
+    <joint name="${axle_joint_name}" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <xacro:insert_block name="origin" />
+      <axis xyz="0 0 1"/>
+      <limit lower="-0.6727" upper="0.6727" effort="100" velocity="10"/>
+    </joint>
+
+    <link name="${child}">
+      <inertial>
+        <mass value="1"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.04" ixy="0.0" ixz="0.0" iyy="0.04" iyz="0.0" izz="0.04"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,19 @@
+<launch>
+  <!-- Set tf base link and imu rosparam yaml for ndt: set use_imu=false if you don't want to use the imu -->
+  <rosparam file="$(find ndt_localization)/params/my_base_imu.yaml" command="load" />
+
+  <!-- Autoware Mapping: NDT, input:points_raw, output:ndt_map -->
+  <include file="$(find lidar_localizer)/launch/ndt_mapping.launch">
+    <arg name="method_type" default="2" /> <!-- pcl_generic=0, pcl_anh=1, pcl_anh_gpu=2, pcl_openmp=3 -->
+    <arg name="use_imu" default="false" />
+    <arg name="imu_upside_down" default="false" />
+    <arg name="imu_topic" default="/imu/data" />
+  </include>
+
+  <!-- URDF and Device TF -->
+  <include file="$(find twizzy_description)/launch/sd1_twizzy.launch" />
+
+  <!-- RVIZ -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find sd_bringup)/rviz/ndt_mapping.rviz"/>
+
+</launch>

@@ -1,0 +1,20 @@
+<library path="lib/librqt_plugin_cpp">
+  <class name="rqt_plugin_cpp/MyPlugin" type="rqt_plugin_cpp::MyPlugin" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      C++ GUI plugin to create a great user interface.
+    </description>
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</label>
+      </group>
+      <group>
+        <label>Subgroup</label>
+      </group>
+      -->
+      <label>C++ Plugin for AVP HMI</label>
+      <icon type="theme">system-help</icon>
+      <statustip>Great user interface to provide real value.</statustip>
+    </qtgui>
+  </class>
+</library>

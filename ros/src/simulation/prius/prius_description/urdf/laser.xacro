@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="laser_macro" params="parent child laser_joint_name *origin">
+    <link name="${child}">
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+    </link>
+    <joint name="${laser_joint_name}" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <xacro:insert_block name="origin" />
+    </joint>
+  </xacro:macro>
+
+</robot>

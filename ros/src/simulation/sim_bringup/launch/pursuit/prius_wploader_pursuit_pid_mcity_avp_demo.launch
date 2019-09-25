@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="false"/>
+  <arg name="gpu" default="false"/>
+  <arg name="world_name" default="$(find car_demo)/worlds/mcity.world"/>
+  <arg name="model" default="$(find prius_description)/urdf/vehicle_gazebo.xacro"/>
+  <arg name="rvizconfig" default="$(find sim_bringup)/rviz/sim_demo_prius.rviz" />
+
+  <!-- Start gazebo and load the world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include>
+
+
+  <!-- Load the prius with an initial position -->
+  <arg name="x" default="-9.67"/>
+  <arg name="y" default="-344.12"/>
+  <arg name="z" default="0.5"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="1.595"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(arg model) gpu:=$(arg gpu)" />
+  <node args="-urdf -model prius -param robot_description -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"
+        name="urdf_spawner" output="screen" pkg="gazebo_ros" respawn="false" type="spawn_model"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+  <!-- server for map required by A* planner -->
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find autoware_glue)/maps/emptymap.yml"/>
+
+  <!-- Fake localization provided by gazebo -->
+  <node pkg="fake_localization" type="fake_localization" name="fake_localization"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="very_inaccurate_odom" args="0 0 0 0 0 0 odom base_link"/>
+  <node pkg="topic_tools" type="transform" name="transform_current_pose" args="--wait-for-start /base_pose_ground_truth /current_pose geometry_msgs/PoseStamped 'geometry_msgs.msg.PoseStamped(header=m.header, pose=m.pose.pose)' --import geometry_msgs"/>
+
+  <!-- MOTION CONTROLLER -->
+  <!-- PID Node input: /twist_raw(target v,w in the base_link) and /estimated_twist (current v,w in the base_link) output: /vehicle_cmd(to control_to_ackermann)  -->
+  <include file="$(find twist_to_control)/launch/twist_to_pid_pp.launch"/>
+  <!-- SIMULATION ONLY turn global pose (/current_pose) to base link car frame velocity (/current_velocity) -->
+  <include file="$(find twist_to_control)/launch/twist_velocity_base_vehicle.launch">
+    <arg name="estimated_twist_topic" value="/current_velocity"/>
+  </include>
+
+  <!-- convert /vehicle_cmd (autoware_msgs/VehicleCmd) to /prius (prius_msgs/Control) command for gazebo-->
+  <node pkg="car_demo" type="control_translator" name="control_translator"/>
+
+  <!-- PATH PLANNER -->
+  <!-- Waypoint Loader -->
+  <include file="$(find autoware_glue)/launch/waypoint_loader_sim_demo.launch">
+  </include>
+  <node pkg="waypoint_maker" type="waypoint_marker_publisher" name="waypoint_marker_publisher"/>
+
+  <!-- PATH FOLLOWER -->
+  <!-- Pure pursuit for following planned path -->
+  <include file="$(find waypoint_follower)/launch/pure_pursuit.launch">
+    <arg name="publishes_for_steering_robot" value="false"/>
+  </include>
+  <!-- Pure pursuit needs config published  param_flag=1 then use const velocity 20 kmh param_flag=0 use speed from /final_waypoints -->
+  <node pkg="rostopic" type="rostopic" name="pub_waypoint_follower_config" args="pub /config/waypoint_follower autoware_config_msgs/ConfigWaypointFollower '{param_flag: 0, velocity: 20.0, lookahead_distance: 0.3, lookahead_ratio: 0.01, minimum_lookahead_distance: 0.3, displacement_threshold: 0.1, relative_angle_threshold: 0.3}'"/>
+  <!-- Continuously filter and publish final waypoints for pursuit -->
+  <node pkg="autoware_glue" type="track_waypoints.py" name="track_waypoints" output="screen"/>
+
+  <!-- MISSION CONTROLLER -->
+  <include file="$(find mission_control)/launch/mission_control.launch"/>
+
+
+  <!-- RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+</launch>

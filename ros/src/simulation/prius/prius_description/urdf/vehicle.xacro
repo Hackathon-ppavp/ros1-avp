@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot name="prius" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find prius_description)/urdf/body.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/axle.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/wheel.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/steering.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/laser.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/camera.xacro" />
+  <xacro:include filename="$(find prius_description)/urdf/sonar.xacro" />
+
+  <!-- ADD BODY+CHASSIS -->
+  <xacro:body_macro/>
+  <!-- ADD 2 FRONT STEERING AXLES -->
+  <xacro:axle_macro parent="chassis" child="fl_axle" axle_joint_name="front_left_steer_joint">
+    <origin xyz="0.767 -1.41 0.3" rpy="0 0 0"/>
+  </xacro:axle_macro>
+  <xacro:axle_macro parent="chassis" child="fr_axle" axle_joint_name="front_right_steer_joint">
+    <origin xyz="-0.767 -1.41 0.3" rpy="0 0 0"/>
+  </xacro:axle_macro>
+
+  <!-- ADD 4 WHEELS -->
+  <xacro:wheel_macro  parent="chassis" child="rear_right_wheel" wheel_joint_name="rear_right_wheel_joint">
+    <origin xyz="-0.793 1.45 0.3" rpy="0 0 0"/>
+  </xacro:wheel_macro>
+  <xacro:wheel_macro  parent="chassis" child="rear_left_wheel" wheel_joint_name="rear_left_wheel_joint">
+    <origin xyz="0.793 1.45 0.3" rpy="0 0 0"/>
+  </xacro:wheel_macro>
+  <xacro:wheel_macro  parent="fr_axle" child="front_right_wheel" wheel_joint_name="front_right_wheel_joint">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:wheel_macro>
+  <xacro:wheel_macro  parent="fl_axle" child="front_left_wheel" wheel_joint_name="front_left_wheel_joint">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:wheel_macro>
+
+  <!-- ADD STEERING WHEEL-->
+  <xacro:steering_macro  parent="chassis" child="steering_wheel" steering_joint_name="steering_joint">
+    <origin xyz="0.357734 -0.627868 0.988243" rpy="-1.302101 0 0"/>
+  </xacro:steering_macro>
+
+  <!-- ADD 3 LASERS-->
+  <xacro:laser_macro  parent="chassis" child="center_laser_link" laser_joint_name="center_laser_joint">
+    <origin xyz="0 0.4 1.8" rpy="0 0 -1.5707"/>
+  </xacro:laser_macro>
+  <xacro:laser_macro  parent="chassis" child="front_left_laser_link" laser_joint_name="front_left_laser_joint">
+    <origin xyz="1 -2.3 0.5" rpy="0 0.05 0"/>
+  </xacro:laser_macro>
+  <xacro:laser_macro  parent="chassis" child="front_right_laser_link" laser_joint_name="front_right_laser_joint">
+    <origin xyz="-1 -2.3 0.5" rpy="0 0.05 3.14"/>
+  </xacro:laser_macro>
+
+  <!-- ADD 4 CAMERAS-->
+  <xacro:camera_macro  parent="chassis" child="front_camera_link" camera_joint_name="front_camera_joint">
+    <origin xyz="0 -0.4 1.4" rpy="0 0.05 -1.5707"/>
+  </xacro:camera_macro>
+  <xacro:camera_macro  parent="chassis" child="back_camera_link" camera_joint_name="back_camera_joint">
+    <origin xyz="0 1.45 1.4" rpy="0 0.05 1.5707"/>
+  </xacro:camera_macro>
+  <xacro:camera_macro  parent="chassis" child="left_camera_link" camera_joint_name="left_camera_joint">
+    <origin xyz="1 -0.7 1.0" rpy="0 0.05 1.0"/>
+  </xacro:camera_macro>
+  <xacro:camera_macro  parent="chassis" child="right_camera_link" camera_joint_name="right_camera_joint">
+    <origin xyz="-1 -0.7 1.0" rpy="0 0.05 2.1416"/>
+  </xacro:camera_macro>
+
+  <!-- ADD 4 SONARS-->
+  <xacro:sonar_macro  parent="chassis" child="back_left_far_sonar_link" sonar_joint_name="back_left_far_sonar_joint">
+    <origin xyz="0.7 2.4 0.5" rpy="0 0 1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="back_left_middle_sonar_link" sonar_joint_name="back_left_middle_sonar_joint">
+    <origin xyz="0.24 2.4 0.5" rpy="0 0 1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="back_right_far_sonar_link" sonar_joint_name="back_right_far_sonar_joint">
+    <origin xyz="-0.7 2.4 0.5" rpy="0 0 1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="back_right_middle_sonar_link" sonar_joint_name="back_right_middle_sonar_joint">
+    <origin xyz="-0.24 2.4 0.5" rpy="0 0 1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="front_left_far_sonar_link" sonar_joint_name="front_left_far_sonar_joint">
+    <origin xyz="0.7 -2.1 0.5" rpy="0 0 -1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="front_left_middle_sonar_link" sonar_joint_name="front_left_middle_sonar_joint">
+    <origin xyz="0.24 -2.3 0.5" rpy="0 0 -1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="front_right_far_sonar_link" sonar_joint_name="front_right_far_sonar_joint">
+    <origin xyz="-0.7 -2.1 0.5" rpy="0 0 -1.5707"/>
+  </xacro:sonar_macro>
+  <xacro:sonar_macro  parent="chassis" child="front_right_middle_sonar_link" sonar_joint_name="front_right_middle_sonar_joint">
+    <origin xyz="-0.24 -2.3 0.5" rpy="0 0 -1.5707"/>
+  </xacro:sonar_macro>
+</robot>

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="body_macro">
+    <joint name="base_link_connection" type="fixed">
+      <parent link="base_link"/>
+      <child link="chassis"/>
+      <origin xyz="1.45 0 0" rpy="0 0 1.57"/>
+      <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="base_link">
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      </inertial>
+    </link>
+
+    <link name="chassis">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://prius_description/meshes/hybrid_body.obj" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+
+      <collision name="chassis">
+        <origin xyz="0.0 0.05 0.625" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.7526 2.1 0.95"/>
+        </geometry>
+      </collision>
+
+      <collision name="front_bumper">
+        <origin xyz="0.0 -2.0 0.458488" rpy="0.0 0 0"/>
+        <geometry>
+          <box size="1.337282 0.48 0.566691"/>
+        </geometry>
+      </collision>
+
+      <collision name="hood">
+        <origin xyz="0.0 -1.900842 0.676305" rpy="0.341247 0 0"/>
+        <geometry>
+          <box size="1.597968 0.493107 0.265468"/>
+        </geometry>
+      </collision>
+
+      <collision name="windshield">
+        <origin xyz="0.0 -0.875105 1.032268" rpy="0.335476 0 0"/>
+        <geometry>
+          <box size="1.168381 1.654253 0.272347"/>
+        </geometry>
+      </collision>
+
+      <collision name="top_front">
+        <origin xyz="0.0 0.161236 1.386042" rpy="0.135030 0 0"/>
+        <geometry>
+          <box size="1.279154 0.625988 0.171868"/>
+        </geometry>
+      </collision>
+
+      <collision name="top_rear">
+        <origin xyz="0.0 0.817696 1.360069" rpy="-0.068997 0 0"/>
+        <geometry>
+          <box size="1.285130 0.771189 0.226557"/>
+        </geometry>
+      </collision>
+
+      <collision name="rear_window">
+        <origin xyz="0.0 1.640531 1.175126" rpy="-0.262017 0 0"/>
+        <geometry>
+          <box size="1.267845 1.116344 0.244286"/>
+        </geometry>
+      </collision>
+
+      <collision name="trunk">
+        <origin xyz="0.0 1.637059 0.888180" rpy="0.0 0 0"/>
+        <geometry>
+          <box size="1.788064 1.138988 0.482746"/>
+        </geometry>
+      </collision>
+
+      <collision name="back_bumper">
+        <origin xyz="0.0 2.054454 0.577870" rpy="0.0 0 0"/>
+        <geometry>
+          <box size="1.781650 0.512093 0.581427"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="1356.0"/>
+        <origin xyz="0 0 0.48" rpy="0 0 1.5708"/>
+        <inertia ixx="2581.13354740" ixy="0.0" ixz="0.0" iyy="591.30846112" iyz="0.0" izz="2681.95008628"/>
+      </inertial>
+    </link>
+    
+  </xacro:macro>
+</robot>

@@ -1,0 +1,19 @@
+<package format="2">
+  <name>sim_bringup</name>
+  <version>0.1.0</version>
+  <description>
+    Launchfiles and related artifacts to bring up different simulation environments
+  </description>
+  <maintainer email="sander@parkopedia.com">Sander van Dijk</maintainer>
+  <license>APACHE 2.0</license>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>map_server</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+  <exec_depend>sd_control</exec_depend>
+  <exec_depend>sd_control_msgs</exec_depend>
+  <exec_depend>ackermann_msgs</exec_depend>
+  <exec_depend>autoware_msgs</exec_depend>
+  
+</package>

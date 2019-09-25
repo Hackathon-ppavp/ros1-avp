@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Load the URDF/Xacro model of our robot -->
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find twizzy_description)/urdf/sd1_twizzy.xacro'" />
+  <param name="robot_description" command="$(arg urdf_file)" />
+  <!-- Publish the robot state -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+  <!-- Provide simulated control of the robot joint angles -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+</launch>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="wheel_macro" params="parent child wheel_joint_name *origin">
+    <joint name="${wheel_joint_name}" type="continuous">
+      <parent link="${parent}"/>
+      <child link="${child}"/>
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0"/>
+    </joint>
+
+    <link name="${child}">
+      <inertial>
+        <mass value="11"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.58631238" ixy="0.0" ixz="0.0" iyy="0.33552910" iyz="0.0" izz="0.33552910"/>
+      </inertial>
+      <collision name="${child}_collision">
+        <geometry>
+          <sphere radius="0.31265"/> 
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://prius_description/meshes/wheel.obj" scale="0.01 0.01 0.01"/>
+        </geometry>
+      </visual>
+    </link>
+
+  </xacro:macro>
+
+</robot>

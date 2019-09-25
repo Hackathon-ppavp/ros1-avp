@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Using namespace to prevent name conflict with dbw CANBus -->
+  <group ns="us">
+    <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_node" output="screen"/> 
+    <node pkg="us_alarm" type="us_alarm.py" name="us_alarm_node" output="screen"/>
+  </group>
+  
+</launch>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Ouster Lidar -->
+  <include file="$(find ouster_ros)/os1.launch">
+     <arg name="os1_hostname" value="os1-991913000313" />
+     <arg name="os1_udp_dest" value="172.29.1.1"/>
+     <arg name="lidar_mode" value="1024x20"/>
+  </include>
+
+
+  <!-- LadyBug5 Camera -->
+  <include file="$(find ladybug5)/launch/ladybug5_driver.launch">
+  </include>
+
+  <!-- Ladybug and Ladar operational check from hw IO trigger rate -->
+  <node pkg="rqt_plugin_cpp" type="trigger_rate.py" name="trigger_rate_node" output="screen"/>
+
+</launch>
