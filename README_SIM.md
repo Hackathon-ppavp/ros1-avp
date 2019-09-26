@@ -14,6 +14,25 @@ The folders in 'ros' are organised as follow,
 **ui**: graphical user interface (work in progress)  
 **visulization**: display data e.g. costmap plot
 
+## Using in ADE
+
+clone to ~/adehome
+
+```
+ade enter
+cd ros1-avp
+sudo ./update-ade-for-avp.sh
+rm -rf build devel
+source /opt/ros/melodic/setup.bash
+catkin_make
+source devel/setup.bash
+roslaunch sim_bringup prius_wploader_pursuit_pid_mcity_parking.launch
+```
+
+
+
+
+
 ## System requirements
 * GPU enabled machine
 * Number of CPU cores: 8 or more

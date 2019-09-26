@@ -144,5 +144,5 @@ void MyPlugin::exitAVP()
 }  // namespace rqt_plugin_cpp
 
 
-PLUGINLIB_DECLARE_CLASS(rqt_plugin_cpp, MyPlugin, rqt_plugin_cpp::MyPlugin, rqt_gui_cpp::Plugin) //kinetic
-//PLUGINLIB_EXPORT_CLASS(rqt_plugin_cpp::MyPlugin, rqt_gui_cpp::Plugin) //melodic
+//PLUGINLIB_DECLARE_CLASS(rqt_plugin_cpp, MyPlugin, rqt_plugin_cpp::MyPlugin, rqt_gui_cpp::Plugin) //kinetic
+PLUGINLIB_EXPORT_CLASS(rqt_plugin_cpp::MyPlugin, rqt_gui_cpp::Plugin) //melodic
